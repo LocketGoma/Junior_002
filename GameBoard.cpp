@@ -1,4 +1,3 @@
-// 분석 필수 //
 #include "StdAfx.h"
 #include "GameBoard.h"
 
