@@ -1,4 +1,5 @@
-
+// MFC... MFC... 
+// 수정 필수
 // TicTacToeDlg.cpp : 구현 파일
 //
 

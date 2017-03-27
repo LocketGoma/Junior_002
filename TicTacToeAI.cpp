@@ -1,3 +1,4 @@
+// 필수 수정
 #include "StdAfx.h"
 #include "TicTacToeAI.h"
 
