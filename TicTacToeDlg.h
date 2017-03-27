@@ -1,8 +1,8 @@
-
 // TicTacToeDlg.h : 헤더 파일
 //
 
 #pragma once
+
 
 #include "TicTacToeAI.h"
 #include <iostream>
