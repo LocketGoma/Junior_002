@@ -1,5 +1,5 @@
 #pragma once
-
+// 안건듭니다
 // 포함 SDKDDKVer.h는 사용 가능한 Windows 플랫폼 중 버전이 가장 높은 플랫폼을 정의합니다.
 
 // 이전 Windows 플랫폼에 대해 응용 프로그램을 빌드하려는 경우에는 SDKDDKVer.h를 포함하기 전에

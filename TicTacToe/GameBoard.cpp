@@ -1,3 +1,4 @@
+// 수정합니다.
 #include "StdAfx.h"
 #include "GameBoard.h"
 

@@ -1,3 +1,4 @@
+// 제일 중요한 놈 1
 #include "StdAfx.h"
 #include "TicTacToeAI.h"
 

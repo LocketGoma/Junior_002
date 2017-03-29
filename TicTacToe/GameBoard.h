@@ -1,4 +1,5 @@
-﻿typedef struct position		/* x,y 좌표 나타내는 구조체 */
+﻿// 수정할수도 있음
+typedef struct position		/* x,y 좌표 나타내는 구조체 */
 {
 	int x;
 	int y;

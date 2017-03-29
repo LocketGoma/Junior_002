@@ -1,3 +1,4 @@
+// 수정할수도 있음
 #include "GameBoard.h"
 
 class TicTacToeAI
