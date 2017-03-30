@@ -298,7 +298,7 @@ int TicTacToeAI::CheckEnd()
 }
 
 /**
-	함 수 : EvaluateBoard()
+	함 수 : EvaluateBoard()   // <----------------------------------------------- ☆☆
 	기 능 : 해당 게임판에서 이길수있는 수들을 검사해서 평가값을 반환해주는 함수 
 */
 int TicTacToeAI::EvaluateBoard(struct treeNode* root)
