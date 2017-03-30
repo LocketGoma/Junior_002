@@ -9,7 +9,11 @@
 */
 GameBoard::GameBoard()
 {
+<<<<<<< HEAD
 	preMoves = new Position[16];
+=======
+	preMoves = new Position[16]; //<--- ¼öÁ¤Áß ¡Ù 9 -> 16 (3*3 -> 4*4)
+>>>>>>> testSys
 	board = new char*[4];
 	
 	for(int i=0; i<4; i++)
