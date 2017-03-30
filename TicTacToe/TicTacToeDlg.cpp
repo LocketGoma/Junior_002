@@ -78,11 +78,8 @@ BEGIN_MESSAGE_MAP(CTicTacToeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_UNDO_A, &CTicTacToeDlg::OnBnClickedButtonUndoA)
 	ON_BN_CLICKED(IDC_BUTTON_UNDO_B, &CTicTacToeDlg::OnBnClickedButtonUndoB)
 	ON_WM_CTLCOLOR()
-<<<<<<< HEAD
-	ON_BN_CLICKED(IDC_BUTTON2, &CTicTacToeDlg::OnBnClickedButton2)
-=======
-	ON_BN_CLICKED(IDC_A10, &CTicTacToeDlg::OnBnClickedA10)
->>>>>>> testSys
+//	ON_BN_CLICKED(IDC_A10, &CTicTacToeDlg::OnBnClickedA10)
+
 END_MESSAGE_MAP()
 
 
@@ -472,11 +469,7 @@ void CTicTacToeDlg::ResetGame()
 	m_board.state = GameBoard::STATE_INIT;
 	m_board.InitBoard(m_startCom, 0, m_levelA, m_levelB);	
 
-<<<<<<< HEAD
-	for(int i=0; i<4; i++)					// <----------------------- ☆
-=======
 	for(int i=0; i<4; i++)								//<-- 현재 수정중 ☆
->>>>>>> testSys
 	{
 		for(int j=0; j<4; j++)
 		{
@@ -614,12 +607,8 @@ void CTicTacToeDlg::UpdateGame()
 		else
 			comButton = IDC_A1;
 	}
-
-<<<<<<< HEAD
-	for(int i=0; i<4; i++)
-=======
+	
 	for(int i=0; i<4; i++)						// <--- 여기도 수정중 ☆
->>>>>>> testSys
 	{
 		for(int j=0; j<4; j++)
 		{
@@ -639,11 +628,7 @@ void CTicTacToeDlg::UpdateGame()
 	count = 0;
 	if(m_board.state != GameBoard::STATE_PLAY)
 	{
-<<<<<<< HEAD
-		for(int i=0; i<4; i++)
-=======
 		for(int i=0; i<4; i++)				// <--- 여기도 ☆
->>>>>>> testSys
 		{
 			for(int j=0; j<4; j++)
 			{
@@ -701,11 +686,11 @@ void CTicTacToeDlg::LoadGame()
 
 			for(i=0; i<4; i++)
 			{
-<<<<<<< HEAD
+
 				fscanf_s(fp, "%s", temp, 5);	/* 해당파일에서 한줄을 읽은뒤 */ // 4->5 맞겠지?
-=======
+
 				fscanf_s(fp, "%s", temp, 4);	/* 해당파일에서 한줄을 읽은뒤 */
->>>>>>> testSys
+
 				for(j=0; j<4; j++)				/* 문자에 맞게 게임판에 입력 */
 				{				
 					if(temp[j] == 'X')			
@@ -738,11 +723,3 @@ void CTicTacToeDlg::LoadGame()
 	}
 }
 
-<<<<<<< HEAD
-void CTicTacToeDlg::OnBnClickedButton2()
-=======
-void CTicTacToeDlg::OnBnClickedA10()
->>>>>>> testSys
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-}
