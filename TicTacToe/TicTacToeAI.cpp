@@ -1,4 +1,5 @@
 // 제일 중요한 놈 1
+// 아직 시작안함
 #include "StdAfx.h"
 #include "TicTacToeAI.h"
 
