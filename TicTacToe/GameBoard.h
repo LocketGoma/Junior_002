@@ -1,4 +1,6 @@
-﻿typedef struct position		/* x,y 좌표 나타내는 구조체 */
+﻿// 수정할수도 있음
+// 게임보드 클래스 여기 있어요
+typedef struct position		/* x,y 좌표 나타내는 구조체 */
 {
 	int x;
 	int y;
@@ -7,16 +9,16 @@
 typedef struct treeNode		/* 출력을 위한 노드 구조체 */
 {
 	int depth;				/* 현재 노드의 깊이 */
-	int eval;				/* 현재 게임판 평가값 */
+	int eval;				/* 현재 게임판 평가값 */ /// <----요기를 건드는걸 찾을것 ☆
 	int childCnt;			/* 노드가 가지고 있는 자식노드 개수 */
-	struct treeNode* next[9];	/* 자식 노드들 */
+	struct treeNode* next[16];	/* 자식 노드들 */
 }Node;
 
 class GameBoard
 {
 public :
 	Position* preMoves;	/* 이전 수 저장할 배열*/
-	char**	board;			/* 3X3 2차원 배열 */
+	char**	board;			/* 4X4 2차원 배열 */
 
 	int moveCnt;			/* 현재 수 개수 */
 	int	state;				/* 현재 게임판 상태 */

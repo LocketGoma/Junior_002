@@ -1,10 +1,12 @@
-// 건들지 않음 // 
+// 얘도 딱히 안건듬
 // FileDlg.cpp : 구현 파일입니다.
 //
+
 #include "stdafx.h"
 #include "TicTacToe.h"
 #include "FileDlg.h"
 #include "afxdialogex.h"
+
 
 // CFileDlg 대화 상자입니다.
 
