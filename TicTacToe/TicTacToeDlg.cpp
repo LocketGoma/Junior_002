@@ -658,7 +658,7 @@ void CTicTacToeDlg::UpdateGame()
 	함 수 : LoadGame()
 	기 능 : 게임을 불러왔을때 해당 게임판 정보를 화면에 업데이트 해주는 함수
 */
-void CTicTacToeDlg::LoadGame()
+void CTicTacToeDlg::LoadGame()      // <------------------------ ☆
 {
 	CFileDlg dlg;
 
