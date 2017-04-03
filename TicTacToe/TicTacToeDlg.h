@@ -1,12 +1,14 @@
+// 수정할수도 있음
 // TicTacToeDlg.h : 헤더 파일
-//
+// m_board 여기있음
 
 #pragma once
-
 
 #include "TicTacToeAI.h"
 #include <iostream>
 #include <queue>
+
+#include <assert.h> // 디버그 문장
 
 using namespace std;
 // CTicTacToeDlg 대화 상자
@@ -63,6 +65,8 @@ public:
 	void StartGame();			/* 게임 시작 */
 	void EndGame();				/* 게임 종료 */
 	void LoadGame();			/* 게임 불러오기 */
+	void SaveGame();							//----------------------- save 구현용 -------------------------------
+			
 
 	/*	사용자 지정 변수 */
 
@@ -72,4 +76,5 @@ public:
 	int m_startCom;			/* 시작하는 COM 종류 */
 	int m_isLoad;			/* 게임이 로드 된 건지 구분 */
 	int m_checkUndo;		/* 무르기를 했는지 여부 구분 */
+
 };

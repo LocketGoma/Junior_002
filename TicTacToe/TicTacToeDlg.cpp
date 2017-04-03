@@ -1,7 +1,6 @@
-// MFC... MFC... 
-// 수정 필수
+// 하단부 수정해야됨
 // TicTacToeDlg.cpp : 구현 파일
-//
+// 여기는 경고메세지만 뱉는거같은데?
 
 #include "stdafx.h"
 #include "TicTacToe.h"
@@ -79,6 +78,8 @@ BEGIN_MESSAGE_MAP(CTicTacToeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_UNDO_A, &CTicTacToeDlg::OnBnClickedButtonUndoA)
 	ON_BN_CLICKED(IDC_BUTTON_UNDO_B, &CTicTacToeDlg::OnBnClickedButtonUndoB)
 	ON_WM_CTLCOLOR()
+//	ON_BN_CLICKED(IDC_A10, &CTicTacToeDlg::OnBnClickedA10)
+
 END_MESSAGE_MAP()
 
 
@@ -212,7 +213,7 @@ HBRUSH CTicTacToeDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	return hbr;
 }
 
-void CTicTacToeDlg::OnBnClickedButtonExit()
+void CTicTacToeDlg::OnBnClickedButtonExit()  // <----------------------------------
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	int conclusion;
@@ -235,13 +236,11 @@ void CTicTacToeDlg::OnBnClickedButtonUndoA()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_checkUndo = 1;
 }
-
 void CTicTacToeDlg::OnBnClickedButtonUndoB()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_checkUndo = 1;
 }
-
 void CTicTacToeDlg::OnBnClickedButtonStart()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -257,7 +256,8 @@ void CTicTacToeDlg::OnBnClickedButtonInit()
 void CTicTacToeDlg::OnBnClickedButtonLoad()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	LoadGame();
+	SaveGame();
+	//LoadGame();
 }
 
 int CTicTacToeDlg::CheckReady()
@@ -281,7 +281,7 @@ int CTicTacToeDlg::CheckReady()
 		case 3 : m_levelA = 7; break;			
 		}
 
-		switch(level_b)
+		switch(level_b) // 나중에 레벨 날려야됨 ★
 		{
 		case 0 : m_levelB = 2; break;			
 		case 1 : m_levelB = 4; break;			
@@ -403,7 +403,7 @@ void CTicTacToeDlg::PrintTreeNode(Node* root)
 				temp = temp + (L"(");		/* 다르면 '(' 로 구분 */
 			
 			temp2.Format(L"%d", pNode->eval);
-			temp = temp + temp2;			
+			temp = temp + temp2;						 // <-------- ????
 
 			preParent = true;				
 
@@ -468,13 +468,13 @@ void CTicTacToeDlg::ResetGame()
 	m_board.state = GameBoard::STATE_INIT;
 	m_board.InitBoard(m_startCom, 0, m_levelA, m_levelB);	
 
-	for(int i=0; i<3; i++)
+	for(int i=0; i< 4; i++)								//<-- 현재 수정중 ☆
 	{
-		for(int j=0; j<3; j++)
+		for(int j=0; j< 4; j++)
 		{
 			str.Format(L"%d", count+1);
 			SetDlgItemText(1001+count, str);
-			SetDlgItemText(1011+count, str);
+			SetDlgItemText(1201+count, str); // <----- B (얘를 1200으로)
 			count++;
 		}
 	}
@@ -572,9 +572,9 @@ int CTicTacToeDlg::WaitUndo()
 			DispatchMessage(&msg);
 		}
 
-		if(m_checkUndo == 1)		/* 무르기를 시전했다면 */
+		if(m_checkUndo == 1)		/* 무르기를 시전했다면 */  // <----------- ★ undo
 		{
-			m_checkUndo = 0;		/* 체크값을 0으로 바꾼디 1을 반환 */
+			m_checkUndo = 0;		/* 체크값을 0으로 바꾼뒤 1을 반환 */
 			return 1;
 		}
 	}
@@ -601,15 +601,15 @@ void CTicTacToeDlg::UpdateGame()
 	}
 	else
 	{
-		if(m_board.starterCom == 'X')
+		if(m_board.starterCom == 'X') // <- 사람 VS 컴으로 할때 수정할것 ☆
 			comButton = IDC_B1;
 		else
 			comButton = IDC_A1;
 	}
-
-	for(int i=0; i<3; i++)
+	
+	for(int i=0; i<4; i++)						// <--- 여기도 수정중 ☆
 	{
-		for(int j=0; j<3; j++)
+		for(int j=0; j<4; j++)
 		{
 			if(m_board.board[i][j] == 'X')
 				SetDlgItemText(comButton+count, L"X");
@@ -627,9 +627,9 @@ void CTicTacToeDlg::UpdateGame()
 	count = 0;
 	if(m_board.state != GameBoard::STATE_PLAY)
 	{
-		for(int i=0; i<3; i++)
+		for(int i=0; i<4; i++)				// <--- 여기도 ☆
 		{
-			for(int j=0; j<3; j++)
+			for(int j=0; j<4; j++)
 			{
 				if(m_board.board[i][j] == 'X')
 				{
@@ -671,7 +671,7 @@ void CTicTacToeDlg::LoadGame()
 	{		
 		FILE *fp;						/* 파일 포인터 선언 */
 		CStringA name(dlg.m_fileStr);
-
+		name = name + ".txt";
 		if(!(fp = fopen(name, "r")))
 		{
 			MessageBox(L"파일을 열 수 없습니다! 파일명을 확인하세요.", L"ERROR", MB_ICONERROR);
@@ -681,12 +681,16 @@ void CTicTacToeDlg::LoadGame()
 		{
 			int i, j, stoneCount=0;
 			int Acnt = 0 , Bcnt = 0;
-			char temp[4];
+			char temp[5];
 
-			for(i=0; i<3; i++)
+			for(i=0; i<4; i++)
 			{
+
+				fscanf_s(fp, "%s", temp, 5);	/* 해당파일에서 한줄을 읽은뒤 */ // 4->5 맞겠지?
+
 				fscanf_s(fp, "%s", temp, 4);	/* 해당파일에서 한줄을 읽은뒤 */
-				for(j=0; j<3; j++)				/* 문자에 맞게 게임판에 입력 */
+
+				for(j=0; j<4; j++)				/* 문자에 맞게 게임판에 입력 */
 				{				
 					if(temp[j] == 'X')			
 					{
@@ -713,6 +717,66 @@ void CTicTacToeDlg::LoadGame()
 			UpdateGame();
 			GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"<게임 트리>");
 			GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"<게임 트리>");
+			fclose(fp);
+		}
+	}
+}
+
+void CTicTacToeDlg::SaveGame()
+{
+	CFileDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		FILE *fp;						/* 파일 포인터 선언 */
+		CStringA name(dlg.m_fileStr);
+		name = name + ".txt";
+		fp = fopen(name, "w+");
+		//fp = fopen("save00.txt", "w+");
+		//if (!(fp = fopen("save00.txt", "w+")))
+		if (fp == NULL)
+		{
+			assert(1);
+			MessageBox(L"잘못된 실행입니다", L"ERROR", MB_ICONERROR);
+			return;
+		}
+		else		/* 제대로 열린 파일이라면 */
+		{
+			int i, j, stoneCount = 0;
+			//	int Acnt = 0, Bcnt = 0;
+			//	char temp[5];
+
+			for (i = 0; i<4; i++)
+			{
+
+				//fscanf_s(fp, "%s", temp, 5);	/* 해당파일에서 한줄을 읽은뒤 */ // 4->5 맞겠지?
+
+				//fscanf_s(fp, "%s", temp, 4);	/* 해당파일에서 한줄을 읽은뒤 */
+
+				for (j = 0; j<4; j++)				/* 문자에 맞게 게임판에 입력 */
+				{
+					if (m_board.board[i][j] == 'X')
+					{
+						fprintf(fp, "X");
+						//	Acnt++;
+					}
+					else if (m_board.board[i][j] == 'O')
+					{
+						fprintf(fp, "O");
+						//	Bcnt++;
+					}
+					else
+						fprintf(fp, "B");;
+				}
+				fprintf(fp, "\n");
+			}
+
+
+
+			//UpdateData(FALSE);
+			//UpdateGame();
+			//GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"<게임 트리>");
+			//GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"<게임 트리>");
 			fclose(fp);
 		}
 	}
