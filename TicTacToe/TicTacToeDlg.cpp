@@ -236,13 +236,11 @@ void CTicTacToeDlg::OnBnClickedButtonUndoA()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_checkUndo = 1;
 }
-
 void CTicTacToeDlg::OnBnClickedButtonUndoB()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_checkUndo = 1;
 }
-
 void CTicTacToeDlg::OnBnClickedButtonStart()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -258,7 +256,8 @@ void CTicTacToeDlg::OnBnClickedButtonInit()
 void CTicTacToeDlg::OnBnClickedButtonLoad()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	LoadGame();
+	SaveGame();
+	//LoadGame();
 }
 
 int CTicTacToeDlg::CheckReady()
@@ -658,7 +657,7 @@ void CTicTacToeDlg::UpdateGame()
 	함 수 : LoadGame()
 	기 능 : 게임을 불러왔을때 해당 게임판 정보를 화면에 업데이트 해주는 함수
 */
-void CTicTacToeDlg::LoadGame()      // <------------------------ ☆
+void CTicTacToeDlg::LoadGame()
 {
 	CFileDlg dlg;
 
@@ -672,7 +671,7 @@ void CTicTacToeDlg::LoadGame()      // <------------------------ ☆
 	{		
 		FILE *fp;						/* 파일 포인터 선언 */
 		CStringA name(dlg.m_fileStr);
-
+		name = name + ".txt";
 		if(!(fp = fopen(name, "r")))
 		{
 			MessageBox(L"파일을 열 수 없습니다! 파일명을 확인하세요.", L"ERROR", MB_ICONERROR);
@@ -723,3 +722,62 @@ void CTicTacToeDlg::LoadGame()      // <------------------------ ☆
 	}
 }
 
+void CTicTacToeDlg::SaveGame()
+{
+	CFileDlg dlg;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		FILE *fp;						/* 파일 포인터 선언 */
+		CStringA name(dlg.m_fileStr);
+		name = name + ".txt";
+		fp = fopen(name, "w+");
+		//fp = fopen("save00.txt", "w+");
+		//if (!(fp = fopen("save00.txt", "w+")))
+		if (fp == NULL)
+		{
+			assert(1);
+			MessageBox(L"잘못된 실행입니다", L"ERROR", MB_ICONERROR);
+			return;
+		}
+		else		/* 제대로 열린 파일이라면 */
+		{
+			int i, j, stoneCount = 0;
+			//	int Acnt = 0, Bcnt = 0;
+			//	char temp[5];
+
+			for (i = 0; i<4; i++)
+			{
+
+				//fscanf_s(fp, "%s", temp, 5);	/* 해당파일에서 한줄을 읽은뒤 */ // 4->5 맞겠지?
+
+				//fscanf_s(fp, "%s", temp, 4);	/* 해당파일에서 한줄을 읽은뒤 */
+
+				for (j = 0; j<4; j++)				/* 문자에 맞게 게임판에 입력 */
+				{
+					if (m_board.board[i][j] == 'X')
+					{
+						fprintf(fp, "X");
+						//	Acnt++;
+					}
+					else if (m_board.board[i][j] == 'O')
+					{
+						fprintf(fp, "O");
+						//	Bcnt++;
+					}
+					else
+						fprintf(fp, "B");;
+				}
+				fprintf(fp, "\n");
+			}
+
+
+
+			//UpdateData(FALSE);
+			//UpdateGame();
+			//GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"<게임 트리>");
+			//GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"<게임 트리>");
+			fclose(fp);
+		}
+	}
+}

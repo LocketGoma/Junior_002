@@ -8,6 +8,8 @@
 #include <iostream>
 #include <queue>
 
+#include <assert.h> // 디버그 문장
+
 using namespace std;
 // CTicTacToeDlg 대화 상자
 class CTicTacToeDlg : public CDialogEx
@@ -63,6 +65,8 @@ public:
 	void StartGame();			/* 게임 시작 */
 	void EndGame();				/* 게임 종료 */
 	void LoadGame();			/* 게임 불러오기 */
+	void SaveGame();							//----------------------- save 구현용 -------------------------------
+			
 
 	/*	사용자 지정 변수 */
 
