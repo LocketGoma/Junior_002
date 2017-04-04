@@ -1,0 +1,4 @@
+OBBO
+BOXB
+BXXB
+BXOB

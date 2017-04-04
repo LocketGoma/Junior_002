@@ -316,15 +316,15 @@ int CTicTacToeDlg::CheckReady()
 void CTicTacToeDlg::SetGame()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_comboA.AddString(L"Level 1");
+	//m_comboA.AddString(L"Level 1");
 	m_comboA.AddString(L"Level 3");
 	m_comboA.AddString(L"Level 5");
-	m_comboA.AddString(L"Level 7");
+	//m_comboA.AddString(L"Level 7");
 
-	m_comboB.AddString(L"Level 2");
-	m_comboB.AddString(L"Level 4");
-	m_comboB.AddString(L"Level 6");
-	m_comboB.AddString(L"Level 8");	
+	//m_comboB.AddString(L"Level 2");
+	//m_comboB.AddString(L"Level 4");
+	//m_comboB.AddString(L"Level 6");
+	//m_comboB.AddString(L"Level 8");	
 
 	GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"<게임 트리>");
 	GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"<게임 트리>");
@@ -540,13 +540,13 @@ void CTicTacToeDlg::EndGame()
 	switch(m_board.state)
 	{
 	case GameBoard::STATE_WINA :
-		GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"게임에 이겼습니다.");
-		GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"게임에 졌습니다.");
+		GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"당신이 게임에 졌습니다.");
+		GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"당신이 게임에 이겼습니다.");
 		break;
 
 	case GameBoard::STATE_WINB :
-		GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"게임에 졌습니다.");
-		GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"게임에 이겼습니다.");
+		GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"당신이 게임에 이겼습니다.");
+		GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"당신이 게임에 졌습니다.");
 		break;
 		
 	case GameBoard::STATE_DRAW :
@@ -726,13 +726,13 @@ void CTicTacToeDlg::LoadGame()
 			int i, j, stoneCount=0;
 			int Acnt = 0 , Bcnt = 0;
 			char temp[5];
-
+			ResetGame();
 			for(i=0; i<4; i++)
 			{
 
 				fscanf_s(fp, "%s", temp, 5);	/* 해당파일에서 한줄을 읽은뒤 */ // 4->5 맞겠지?
 
-				fscanf_s(fp, "%s", temp, 4);	/* 해당파일에서 한줄을 읽은뒤 */
+				//fscanf_s(fp, "%s", temp, 4);	/* 해당파일에서 한줄을 읽은뒤 */
 
 				for(j=0; j<4; j++)				/* 문자에 맞게 게임판에 입력 */
 				{				
@@ -749,12 +749,13 @@ void CTicTacToeDlg::LoadGame()
 					else
 						m_board.board[i][j] = ' ';
 				}
+
 			}
 
-			//if(Acnt < Bcnt)			/* 'X'와 'O' 문자 개수를 비교 */
+			if(Acnt < Bcnt)			/* 'X'와 'O' 문자 개수를 비교 */
 				m_startCom = 1;		/* A가 작으면 B가 시작 컴퓨터 */
-			//else					/* 동일하면, A가 시작 컴퓨터 */
-			//	m_startCom = 0;
+			else					/* 동일하면, A가 시작 컴퓨터 */
+				m_startCom = 0;
 
 			UpdateData(FALSE);
 			m_isLoad = Acnt + Bcnt;
