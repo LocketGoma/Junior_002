@@ -78,7 +78,25 @@ BEGIN_MESSAGE_MAP(CTicTacToeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_UNDO_A, &CTicTacToeDlg::OnBnClickedButtonUndoA)
 	ON_BN_CLICKED(IDC_BUTTON_UNDO_B, &CTicTacToeDlg::OnBnClickedButtonUndoB)
 	ON_WM_CTLCOLOR()
-//	ON_BN_CLICKED(IDC_A10, &CTicTacToeDlg::OnBnClickedA10)
+
+	ON_BN_CLICKED(IDC_B1, &CTicTacToeDlg::OnBnClickedB1)
+	ON_BN_CLICKED(IDC_B2, &CTicTacToeDlg::OnBnClickedB2)
+	ON_BN_CLICKED(IDC_B3, &CTicTacToeDlg::OnBnClickedB3)
+	ON_BN_CLICKED(IDC_B4, &CTicTacToeDlg::OnBnClickedB4)
+	ON_BN_CLICKED(IDC_B5, &CTicTacToeDlg::OnBnClickedB5)
+	ON_BN_CLICKED(IDC_B6, &CTicTacToeDlg::OnBnClickedB6)
+	ON_BN_CLICKED(IDC_B7, &CTicTacToeDlg::OnBnClickedB7)
+	ON_BN_CLICKED(IDC_B8, &CTicTacToeDlg::OnBnClickedB8)
+	ON_BN_CLICKED(IDC_B9, &CTicTacToeDlg::OnBnClickedB9)
+	ON_BN_CLICKED(IDC_B10, &CTicTacToeDlg::OnBnClickedB10)
+	ON_BN_CLICKED(IDC_B11, &CTicTacToeDlg::OnBnClickedB11)
+	ON_BN_CLICKED(IDC_B12, &CTicTacToeDlg::OnBnClickedB12)
+	ON_BN_CLICKED(IDC_B13, &CTicTacToeDlg::OnBnClickedB13)
+	ON_BN_CLICKED(IDC_B14, &CTicTacToeDlg::OnBnClickedB14)
+	ON_BN_CLICKED(IDC_B15, &CTicTacToeDlg::OnBnClickedB15)
+	ON_BN_CLICKED(IDC_B16, &CTicTacToeDlg::OnBnClickedB16)
+
+
 
 END_MESSAGE_MAP()
 
@@ -250,14 +268,14 @@ void CTicTacToeDlg::OnBnClickedButtonStart()
 void CTicTacToeDlg::OnBnClickedButtonInit()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	ResetGame();
+	SaveGame();
+	// ResetGame(); < -- 쓸곳은 있음
 }
 
 void CTicTacToeDlg::OnBnClickedButtonLoad()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	SaveGame();
-	//LoadGame();
+	LoadGame();
 }
 
 int CTicTacToeDlg::CheckReady()
@@ -265,12 +283,13 @@ int CTicTacToeDlg::CheckReady()
 	UpdateData(TRUE);
 
 	int level_a = m_comboA.GetCurSel();
-	int level_b = m_comboB.GetCurSel();
+	//int level_b = m_comboB.GetCurSel();
+	m_startCom = 0;
 
-	if(level_a == -1 || level_b == -1)
+	if(level_a == -1)
 		return -1;
-	else if(m_startCom == -1)
-		return 0;
+	//else if(m_startCom == -1)
+	//	return 0;
 	else
 	{
 		switch(level_a)
@@ -280,7 +299,8 @@ int CTicTacToeDlg::CheckReady()
 		case 2 : m_levelA = 5; break;		
 		case 3 : m_levelA = 7; break;			
 		}
-
+		m_levelB = 2; // 임시
+		/*
 		switch(level_b) // 나중에 레벨 날려야됨 ★
 		{
 		case 0 : m_levelB = 2; break;			
@@ -288,7 +308,7 @@ int CTicTacToeDlg::CheckReady()
 		case 2 : m_levelB = 7; break;		
 		case 3 : m_levelB = 8; break;			
 		}
-
+		*/
 		return 1;
 	}	
 }
@@ -311,6 +331,7 @@ void CTicTacToeDlg::SetGame()
 
 	m_levelA = 0;
 	m_levelB = 0;
+	m_comboA.SetCurSel(0);
 }
 
 /**
@@ -340,25 +361,47 @@ void CTicTacToeDlg::StartGame()
 
  		while(m_board.state == GameBoard::STATE_PLAY)		/* 게임 중이라면 */
 		{
-			TicTacToeAI* tttAI = new TicTacToeAI(m_board);	/* 새로운 AI 객체를 생성 */
-
-			tttAI->GetBestMove();							/* 최적의 좌표를 구함 */
-			m_board.DoMove(tttAI->bestX, tttAI->bestY);		/* 해당 좌표에 수를 둠 */
-			
-			Node* node = tttAI->GetRootNode();			/* 최적의 좌표를 구하는동안 저장한 트리 중 루트노드 반환 */
-			this->PrintTreeNode(node);					/* 트리 출력 */
-			
-			UpdateGame();							/* 게임판 업데이트 */
-		
-			while(WaitUndo())							/* 무르기 기다림 */
+			if (m_board.moveCnt % 2 == 0) // cnt = 0 (사람일때)
 			{
-				m_board.RandomMove();	/* 남아있는 좌표중 랜덤한 곳으로 수를 둠 */
-				UpdateGame();						/* 게임판 업데이트 */
+				int x;
+				int y;
+
+				m_undoB.EnableWindow(TRUE); // 왜 B? <- 우측이 사람.
+				m_checkUndo = 0;
+				WaitPush();
+
+				if (m_checkUndo == 1) { // undo 눌렸을때
+					if (m_board.moveCnt == 0) {
+						continue;
+					}
+					else { 
+						m_board.moveCnt -= 2; // 2회 뒤로
+						m_board.board[m_board.preMoves[m_board.moveCnt].x][m_board.preMoves[m_board.moveCnt].y] = ' ';
+						m_board.board[m_board.preMoves[m_board.moveCnt + 1].x][m_board.preMoves[m_board.moveCnt + 1].y] = ' ';
+						UpdateGame();
+						continue;
+					}
+				}
+				m_undoB.EnableWindow(FALSE);
+				x = (m_inputposition - 1) / 4;
+				y = (m_inputposition - 1) % 4;
+				m_board.DoMove(x, y);
+				UpdateGame();
 			}
+			else {
+				TicTacToeAI* tttAI = new TicTacToeAI(m_board);	/* 새로운 AI 객체를 생성 */
 
-			delete tttAI;
-			delete node;
+				tttAI->GetBestMove();							/* 최적의 좌표를 구함 */
+				m_board.DoMove(tttAI->bestX, tttAI->bestY);		/* 해당 좌표에 수를 둠 */
 
+				Node* node = tttAI->GetRootNode();			/* 최적의 좌표를 구하는동안 저장한 트리 중 루트노드 반환 */
+				this->PrintTreeNode(node);					/* 트리 출력 */
+
+				UpdateGame();							/* 게임판 업데이트 */
+
+				delete tttAI;
+				delete node;
+			}
 			m_board.CheckState();			/* 게임판 상태를 점검 */
 			if(m_board.state != GameBoard::STATE_PLAY)
 				EndGame();					/* 플레이 중이 아닌 상태면 게임 종료 */
@@ -581,6 +624,7 @@ int CTicTacToeDlg::WaitUndo()
 	return 0;						/* 아니라면, 0을 반환 */
 }
 
+
 /**
 	함 수 : UpdateGame()
 	기 능 : 해당 게임판을 화면으로 업데이트 해주는 함수
@@ -707,10 +751,10 @@ void CTicTacToeDlg::LoadGame()
 				}
 			}
 
-			if(Acnt < Bcnt)			/* 'X'와 'O' 문자 개수를 비교 */
+			//if(Acnt < Bcnt)			/* 'X'와 'O' 문자 개수를 비교 */
 				m_startCom = 1;		/* A가 작으면 B가 시작 컴퓨터 */
-			else					/* 동일하면, A가 시작 컴퓨터 */
-				m_startCom = 0;
+			//else					/* 동일하면, A가 시작 컴퓨터 */
+			//	m_startCom = 0;
 
 			UpdateData(FALSE);
 			m_isLoad = Acnt + Bcnt;
@@ -724,15 +768,14 @@ void CTicTacToeDlg::LoadGame()
 
 void CTicTacToeDlg::SaveGame()
 {
-	CFileDlg dlg;
-
-	if (dlg.DoModal() == IDOK)
-	{
+	//CFileDlg dlg;
+	//if (dlg.DoModal() == IDOK)
+	//{
 		FILE *fp;						/* 파일 포인터 선언 */
-		CStringA name(dlg.m_fileStr);
-		name = name + ".txt";
-		fp = fopen(name, "w+");
-		//fp = fopen("save00.txt", "w+");
+		//CStringA name(dlg.m_fileStr);
+		//name = name + ".txt";
+		//fp = fopen(name, "w+");
+		fp = fopen("SaveGame00.txt", "w+");
 		//if (!(fp = fopen("save00.txt", "w+")))
 		if (fp == NULL)
 		{
@@ -770,14 +813,126 @@ void CTicTacToeDlg::SaveGame()
 				}
 				fprintf(fp, "\n");
 			}
-
-
-
 			//UpdateData(FALSE);
 			//UpdateGame();
 			//GetDlgItem(IDC_EDIT_A)->SetWindowTextW(L"<게임 트리>");
 			//GetDlgItem(IDC_EDIT_B)->SetWindowTextW(L"<게임 트리>");
 			fclose(fp);
 		}
+	//}
+}
+int CTicTacToeDlg::WaitPush() {
+	MSG msg;
+	m_clicked_check = 0;
+	m_checkUndo = 0;
+
+	int input_x;
+	int input_y;
+
+
+	while (true) {
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			PreTranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		if (m_checkUndo == 1) {
+			return 0;
+		}
+
+		if (m_clicked_check == 1) {
+			input_x = (m_inputposition - 1) / 4;
+			input_y = (m_inputposition - 1) % 4;
+			if (m_board.board[input_x][input_y] == 'X' || m_board.board[input_x][input_y] == 'O'){
+				m_clicked_check = 0;
+				continue;
+			}
+			else {
+				m_clicked_check = 0;
+				return 1;
+			}
+		}
 	}
+	return 0; // while (ture) 니까...
+}
+
+
+void CTicTacToeDlg::OnBnClickedB1() // waitundo 이용
+{
+	m_inputposition = 1;
+	m_clicked_check = 1;	
+}
+void CTicTacToeDlg::OnBnClickedB2() 
+{
+	m_inputposition = 2;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB3()
+{
+	m_inputposition = 3;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB4()
+{
+	m_inputposition = 4;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB5()
+{
+	m_inputposition = 5;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB6()
+{
+	m_inputposition = 6;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB7()
+{
+	m_inputposition = 7;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB8()
+{
+	m_inputposition = 8;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB9()
+{
+	m_inputposition = 9;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB10()
+{
+	m_inputposition = 10;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB11()
+{
+	m_inputposition = 11;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB12()
+{
+	m_inputposition = 12;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB13()
+{
+	m_inputposition = 13;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB14()
+{
+	m_inputposition = 14;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB15()
+{
+	m_inputposition = 15;
+	m_clicked_check = 1;
+}
+void CTicTacToeDlg::OnBnClickedB16()
+{
+	m_inputposition = 16;
+	m_clicked_check = 1;
 }
