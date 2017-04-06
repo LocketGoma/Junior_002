@@ -3,5 +3,8 @@ f:\programing\git\junior_002\tictactoe\tictactoedlg.cpp(719): warning C4996: 'fo
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: 'fopen' 선언을 참조하십시오.
 f:\programing\git\junior_002\tictactoe\tictactoedlg.cpp(779): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: 'fopen' 선언을 참조하십시오.
+  코드를 생성하고 있습니다...
+  건너뛰고 있습니다... (관련된 변경 내용 없음)
+  TicTacToe.cpp
   TicTacToe.vcxproj -> F:\Programing\Git\junior_002\TicTacToe\Debug\TicTacToe.exe
   TicTacToe.vcxproj -> F:\Programing\Git\junior_002\TicTacToe\Debug\TicTacToe.pdb (Full PDB)

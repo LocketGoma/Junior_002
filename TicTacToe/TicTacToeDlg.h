@@ -85,7 +85,8 @@ public:
 	void EndGame();				/* 게임 종료 */
 	void LoadGame();			/* 게임 불러오기 */
 	void SaveGame();			//----------------------- save 구현용 -------------------------------
-	int WaitPush();				//--------입력구현
+	//int WaitPush();				//--------입력구현
+	void WaitPush();
 	/*	사용자 지정 변수 */
 
 	GameBoard m_board;		/* 게임 보드 변수 */

@@ -822,6 +822,7 @@ void CTicTacToeDlg::SaveGame()
 		}
 	//}
 }
+/*
 int CTicTacToeDlg::WaitPush() {
 	MSG msg;
 	m_clicked_check = 0;
@@ -829,7 +830,6 @@ int CTicTacToeDlg::WaitPush() {
 
 	int input_x;
 	int input_y;
-
 
 	while (true) {
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
@@ -854,6 +854,39 @@ int CTicTacToeDlg::WaitPush() {
 		}
 	}
 	return 0; // while (ture) 니까...
+}
+*/
+void CTicTacToeDlg::WaitPush() {
+	MSG msg;
+	m_clicked_check = 0;
+	m_checkUndo = 0;
+
+	int input_x;
+	int input_y;
+
+	while (true) {
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			PreTranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		if (m_checkUndo == 1) {
+			break;
+		}
+		if (m_clicked_check == 1) {
+			input_x = (m_inputposition - 1) / 4;
+			input_y = (m_inputposition - 1) % 4;
+			if (m_board.board[input_x][input_y] == 'X' || m_board.board[input_x][input_y] == 'O') {
+				m_clicked_check = 0;
+				m_inputposition = 0;
+				continue;
+			}
+			else {
+				m_clicked_check = 0;
+				break;
+			}
+		}
+	}
+	// while (ture) 니까...
 }
 
 
